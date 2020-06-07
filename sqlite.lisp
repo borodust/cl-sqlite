@@ -22,6 +22,7 @@
            :bind-parameter
            :execute-non-query
            :execute-to-list
+           :execute-multiple-non-query
            :execute-single
            :execute-single/named
            :execute-one-row-m-v/named
@@ -417,6 +418,12 @@ See BIND-PARAMETER for the list of supported parameter types."
     (if (step-statement stmt)
         (statement-column-value stmt 0)
         nil)))
+
+
+(defun execute-multiple-non-query (db sql)
+  "Executes semi-colon separated SQL queries to the database DB and discards any output."
+  (sqlite-ffi:sqlite3-exec (handle db) sql (cffi:null-pointer) (cffi:null-pointer) (cffi:null-pointer))
+  (values))
 
 (defun execute-single/named (db sql &rest parameters)
   "Executes the query SQL to the database DB with given PARAMETERS. Returns the first column of the first row as single value.

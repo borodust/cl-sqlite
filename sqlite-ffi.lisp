@@ -3,6 +3,7 @@
   (:export :error-code
            :p-sqlite3
            :sqlite3-open
+           :sqlite3-exec
            :sqlite3-close
            :sqlite3-errmsg
            :sqlite3-busy-timeout
@@ -198,3 +199,11 @@
 
 (defcfun sqlite3-last-insert-rowid :int64
   (db p-sqlite3))
+
+
+(defcfun (sqlite3-exec "sqlite3_exec") :int
+  (db p-sqlite3)
+  (sql :string)
+  (callback :pointer)
+  (callback-arg :pointer)
+  (error-msg :pointer))
